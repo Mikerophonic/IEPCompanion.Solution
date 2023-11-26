@@ -43,14 +43,13 @@
         WebApplication app = builder.Build();
 
         app.UseDeveloperExceptionPage();
-        app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
 
-        // Next two lines below enable authentication and authorization.
-        app.UseAuthentication();
-        app.UseAuthorization();
+        // // Next two lines below enable authentication and authorization.
+        // app.UseAuthentication();
+        // app.UseAuthorization();
 
         app.MapControllerRoute(
             name: "default",

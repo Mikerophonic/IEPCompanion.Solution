@@ -1,0 +1,76 @@
+@{
+  Layout = "_Layout";
+}
+
+@using IEPCompanion.Models;
+
+
+<h1>IEP Home</h1>
+<hr />
+
+<h4>IEP Listing</h4>
+@if (Model["ieps"].Count == 0)
+{
+  <p>No Individual Education Plans have been added yet!</p>
+}
+else
+{
+  <ul>
+    @foreach (IEP iep in Model["ieps"])
+    {
+      <li>@Html.ActionLink($"{iep.IEPId}", "Details", "Home" , new { id = iep.IEPId })</li>
+    }
+  </ul>
+  }
+
+<h4>People Listing</h4>
+@if (Model["people"].Count == 0)
+{
+  <p>No People added</p>
+}
+else
+{
+  <h4>Teachers</h4>
+  <ul>
+    @foreach (Person person in Model["people"])
+    {
+      @if (person.Category == "Teacher")
+      {
+        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+      }
+    }
+  </ul>
+  <br>
+  <h4>Students</h4>
+  <ul>
+    @foreach (Person person in Model["people"])
+    {
+      @if (person.Category == "Student")
+      {
+        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+      }
+    }
+  </ul>
+  <br>
+  <h4>Parents</h4>
+  <ul>
+    @foreach (Person person in Model["people"])
+    {
+      @if (person.Category == "Parent")
+      {
+        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+      }
+    }
+  </ul>
+  <br>
+  <h4>Administrators</h4>
+  <ul>
+    @foreach (Person person in Model["people"])
+    {
+      @if (person.Category == "Administrator")
+      {
+        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+      }
+    }
+  </ul>
+}

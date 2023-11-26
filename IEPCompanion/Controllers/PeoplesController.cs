@@ -7,25 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace IEPCompanion.Controllers;
 
-public class IEPsController : Controller
+public class PeoplesController : Controller
 {
   private readonly IEPCompanionContext _db;
-  public IEPsController(IEPCompanionContext db)
+  public PeoplesController(IEPCompanionContext db)
   {
     _db = db;
   }
 
   public ActionResult Index()
   {
-    List<IEP> model = _db.IEPs.ToList();
+    List<Person> model = _db.Persons.ToList();
     return View(model);
   }
 
-  //CREATE
-
-  //READ 
-
-  //UPDATE
-
-  //DELETE
 }

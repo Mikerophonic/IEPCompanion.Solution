@@ -1,0 +1,99 @@
+/* Reset some default styles for better consistency across browsers */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* Box-sizing border-box for easier layout control */
+* {
+  box-sizing: border-box;
+}
+
+/* Set body font and background color */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #e5e5e5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Set maximum width for the content and center it on the page */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Style for the header */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}
+
+/* Navigation menu styles */
+nav {
+  margin-top: 10px;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Style for the main content area */
+main {
+  padding: 20px 0;
+}
+
+/* Style for headings */
+h1,
+h2,
+h3 {
+  color: #333;
+}
+
+/* Style for links */
+a {
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Style for buttons */
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}

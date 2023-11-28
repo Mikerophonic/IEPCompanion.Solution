@@ -8,9 +8,49 @@
       rel="stylesheet" 
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
       crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/site.css" type="text/css">
   </head>
   <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-sm-3">
+      <a class="navbar-brand" href="#">Bakery</a>
+    </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      
+        @if(!User.Identity.IsAuthenticated)
+      {
+        <div class="container">
+          <li class="nav nav-item">
+            @Html.ActionLink("Register", "Register", "Accounts")
+          </li>
+        </div>
+        <div class="container">
+          <li class="nav nav-item">
+            @Html.ActionLink("Login", "Login", "Accounts")
+          </li>
+        </div>
+      }
+      @if(User.Identity.IsAuthenticated)
+      {
+        <div class="container">
+        <li class="nav nav-item">
+          @using (Html.BeginForm("LogOff", "Accounts"))
+          {
+            <input type="submit" class="btn btn-primary" value="Log out" />
+          }
+        </li>
+        </div>
+      }
+    </ul>
+  </div>
+</nav>
     @RenderBody()
   </body>
 </html>
+
+
+  

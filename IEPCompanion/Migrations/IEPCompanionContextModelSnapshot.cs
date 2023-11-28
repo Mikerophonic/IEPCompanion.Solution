@@ -24,12 +24,15 @@ namespace IEPCompanion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+<<<<<<< HEAD
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<int>("SchoolYear")
                         .HasColumnType("int");
 
+=======
+>>>>>>> 32ccccbbff4723d9e6721002a3bf740064bd090b
                     b.HasKey("IEPId");
 
                     b.ToTable("IEPs");

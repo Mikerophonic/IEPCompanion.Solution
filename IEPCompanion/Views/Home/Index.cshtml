@@ -1,76 +1,99 @@
-@{
-  Layout = "_Layout";
-}
-
 @using IEPCompanion.Models;
-
+@using IEPCompanion.ViewModels
+@model LoginViewModel
 
 <h1>IEP Home</h1>
 <hr />
+<div>
+  @if(!User.Identity.IsAuthenticated)
+  {
+    <h2>Log in with your account</h2>
+    <hr />
 
-<h4>IEP Listing</h4>
-@if (Model["ieps"].Count == 0)
-{
-  <p>No Individual Education Plans have been added yet!</p>
-}
-else
-{
-  <ul>
-    @foreach (IEP iep in Model["ieps"])
+    @if(!ViewData.ModelState.IsValid) 
     {
-      <li>@Html.ActionLink($"{iep.IEPId}", "Details", "Home" , new { id = iep.IEPId })</li>
+      @Html.ValidationSummary("Please fix the following error(s) and then resubmit the form:") 
     }
-  </ul>
+
+    @using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
+    {
+      @Html.LabelFor(m => m.Email)
+      @Html.TextBoxFor(m => m.Email)
+
+      @Html.LabelFor(m => m.Password)
+      @Html.EditorFor(m => m.Password)
+
+      <input type="submit" value="Log in" />
+    }
   }
+</div>
+else {
 
-<h4>People Listing</h4>
-@if (Model["people"].Count == 0)
-{
-  <p>No People added</p>
-}
-else
-{
-  <h4>Teachers</h4>
-  <ul>
-    @foreach (Person person in Model["people"])
-    {
-      @if (person.Category == "Teacher")
+  <h4>IEP Listing</h4>
+  @if (Model["ieps"].Count == 0)
+  {
+    <p>No Individual Education Plans have been added yet!</p>
+  }
+  else
+  {
+    <ul>
+      @foreach (IEP iep in Model["ieps"])
       {
-        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+        <li>@Html.ActionLink($"{iep.IEPId}", "Details", "Home" , new { id = iep.IEPId })</li>
       }
+    </ul>
     }
-  </ul>
-  <br>
-  <h4>Students</h4>
-  <ul>
-    @foreach (Person person in Model["people"])
-    {
-      @if (person.Category == "Student")
+
+  <h4>People Listing</h4>
+  @if (Model["people"].Count == 0)
+  {
+    <p>No People added</p>
+  }
+  else
+  {
+    <h4>Teachers</h4>
+    <ul>
+      @foreach (Person person in Model["people"])
       {
-        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+        @if (person.Category == "Teacher")
+        {
+          <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
+        }
       }
-    }
-  </ul>
-  <br>
-  <h4>Parents</h4>
-  <ul>
-    @foreach (Person person in Model["people"])
-    {
-      @if (person.Category == "Parent")
+      @Html.ActionLink("",)
+    </ul>
+    <br>
+    <h4>Students</h4>
+    <ul>
+      @foreach (Person person in Model["people"])
       {
-        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+        @if (person.Category == "Student")
+        {
+          <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
+        }
       }
-    }
-  </ul>
-  <br>
-  <h4>Administrators</h4>
-  <ul>
-    @foreach (Person person in Model["people"])
-    {
-      @if (person.Category == "Administrator")
+    </ul>
+    <br>
+    <h4>Parents</h4>
+    <ul>
+      @foreach (Person person in Model["people"])
       {
-        <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Home" , new { id = person.PersonId })</li>
+        @if (person.Category == "Parent")
+        {
+          <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
+        }
       }
-    }
-  </ul>
+    </ul>
+    <br>
+    <h4>Administrators</h4>
+    <ul>
+      @foreach (Person person in Model["people"])
+      {
+        @if (person.Category == "Administrator")
+        {
+          <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
+        }
+      }
+    </ul>
+  }
 }

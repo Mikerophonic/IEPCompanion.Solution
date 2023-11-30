@@ -1,34 +1,20 @@
+@{
+  Layout = "_Layout";
+}
+
 @using IEPCompanion.Models;
-@using IEPCompanion.ViewModels
-@model LoginViewModel
+
+
 
 <h1>IEP Home</h1>
-<hr />
+
 <div>
   @if(!User.Identity.IsAuthenticated)
   {
-    <h2>Log in with your account</h2>
-    <hr />
-
-    @if(!ViewData.ModelState.IsValid) 
-    {
-      @Html.ValidationSummary("Please fix the following error(s) and then resubmit the form:") 
-    }
-
-    @using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
-    {
-      @Html.LabelFor(m => m.Email)
-      @Html.TextBoxFor(m => m.Email)
-
-      @Html.LabelFor(m => m.Password)
-      @Html.EditorFor(m => m.Password)
-
-      <input type="submit" value="Log in" />
-    }
+    @Html.ActionLink("Login", "Login", "Accounts")
+    @Html.ActionLink("Register", "Register", "Accounts")
   }
-</div>
 else {
-
   <h4>IEP Listing</h4>
   @if (Model["ieps"].Count == 0)
   {
@@ -60,7 +46,6 @@ else {
           <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
         }
       }
-      @Html.ActionLink("",)
     </ul>
     <br>
     <h4>Students</h4>
@@ -95,5 +80,6 @@ else {
         }
       }
     </ul>
+    }
   }
-}
+

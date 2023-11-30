@@ -9,14 +9,19 @@ namespace IEPCompanion.Controllers;
 public class AccountsController:Controller
 {
   private readonly IEPCompanionContext _db;
-  private readonly UserManager<ApplicationUser> _usrmgr;
-  private readonly SignInManager<ApplicationUser> _signInMgr;
+  private readonly UserManager<ApplicationUser> _userManager;
+  private readonly SignInManager<ApplicationUser> _signInManager;
 
   public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEPCompanionContext db)
   {
-    _usrmgr = userManager;
+    _userManager = userManager;
     _signInManager = signInManager;
     _db=db;
+  }
+
+  public ActionResult Login()
+  {
+    return View();
   }
 
   public ActionResult Register()
@@ -24,31 +29,37 @@ public class AccountsController:Controller
     return View();
   }
 
-  [HttpPost]
-  public async Task<ActionResult> Register(RegisterViewModel model)
-  {
-    if(!ModelState.IsValid)
+ public ActionResult Index()
     {
-      return View(model);
+      return View();
+    }
+
+
+  [HttpPost]
+public async Task<IActionResult> Register(RegisterViewModel model)
+{
+  if(!ModelState.IsValid)
+  {
+    return View(model);
+  }
+  else
+  {
+    ApplicationUser user = new ApplicationUser { UserName = model.Email };
+    IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+    if(result.Succeeded)
+    {
+      return RedirectToAction("Index", "Home");
     }
     else
     {
-      ApplicationUser user = new ApplicationUser { UserName = model.Email };
-      IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-      if(result.Succeeded)
+      foreach (IdentityError err in result.Errors)
       {
-        return RedirectToAction("Index", "Home");
+        ModelState.AddModelError("", err.Description);
       }
-      else
-      {
-        foreach (IdentityError err in result.Errors)
-        {
-          ModelState.AddModelError("", err.Description);
-        }
-        return View(model);
-      }
+      return View(model);
     }
   }
+}
   
   [HttpPost]
   public async Task<ActionResult> Login(LoginViewModel model)
@@ -76,7 +87,7 @@ public class AccountsController:Controller
   public async Task<ActionResult> LogOff()
   {
     await _signInManager.SignOutAsync();
-    return RedirectToAction("Index", "Home");
+    return RedirectToAction("Index");
   }
 
 

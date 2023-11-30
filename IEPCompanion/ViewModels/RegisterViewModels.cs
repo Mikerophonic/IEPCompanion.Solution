@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 namespace IEPCompanion.ViewModels;
+
 public class RegisterViewModel
 {
   [Required]

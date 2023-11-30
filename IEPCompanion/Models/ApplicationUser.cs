@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace IEPCompanion.Models;
-
+namespace IEPCompanion.Models
+{
 public class ApplicationUser : IdentityUser
 {
-  
+  public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
+}
 }

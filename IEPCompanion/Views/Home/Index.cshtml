@@ -19,6 +19,7 @@ else {
   @if (Model["ieps"].Count == 0)
   {
     <p>No Individual Education Plans have been added yet!</p>
+    <p>Click @Html.ActionLink("here", "Create", "IEPs") to add a new IEP</p>
   }
   else
   {
@@ -41,7 +42,7 @@ else {
     <ul>
       @foreach (Person person in Model["people"])
       {
-        @if (person.Category == "Teacher")
+        @if (person.Role == "Teacher")
         {
           <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
         }
@@ -52,7 +53,7 @@ else {
     <ul>
       @foreach (Person person in Model["people"])
       {
-        @if (person.Category == "Student")
+        @if (person.Role == "Student")
         {
           <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
         }
@@ -63,7 +64,7 @@ else {
     <ul>
       @foreach (Person person in Model["people"])
       {
-        @if (person.Category == "Parent")
+        @if (person.Role == "Parent")
         {
           <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
         }
@@ -74,7 +75,7 @@ else {
     <ul>
       @foreach (Person person in Model["people"])
       {
-        @if (person.Category == "Administrator")
+        @if (person.Role == "Administrator")
         {
           <li>@Html.ActionLink($"ID: {person.PersonId} {person.LastName}, {person.FirstName}", "Details", "Peoples" , new { id = person.PersonId })</li>
         }

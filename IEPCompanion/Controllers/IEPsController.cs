@@ -18,26 +18,20 @@ public class IEPsController : Controller
 {
   private readonly IEPCompanionContext _db;
 
-  private readonly UserManager<ApplicationUser> _userManager;
 
-  public IEPsController(IEPCompanionContext db, UserManager<ApplicationUser> userManager)
+  public IEPsController(IEPCompanionContext db)
   {
-    _userManager = userManager;
     _db = db;
   }
 
   public async Task<ActionResult> Index()
   {
-    // string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    // ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-    // if (currentUser == null)
-    // {
-    //   return NotFound();
-    // }
-    // List<IEP> personIEPs = await _db.IEPs
-    //   .Where(entry => entry.PersonId == currentUser.Id)
-    //   .ToListAsync();
-    return View();
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      // ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      List<IEP> userIEPs = _db.IEPs.
+                               Where(entry => entry.User.Id == currentUser.Id)
+                               .ToList();
+      return View(userIEPs); 
   }
 
   //CREATE

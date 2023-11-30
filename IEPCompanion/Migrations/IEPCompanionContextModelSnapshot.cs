@@ -89,13 +89,24 @@ namespace IEPCompanion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Disability")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Goals")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<int>("SchoolYear")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("IEPId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("IEPs");
                 });
@@ -127,9 +138,6 @@ namespace IEPCompanion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
@@ -139,7 +147,15 @@ namespace IEPCompanion.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("PersonId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Persons");
                 });
@@ -308,6 +324,15 @@ namespace IEPCompanion.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUserRole");
                 });
 
+            modelBuilder.Entity("IEPCompanion.Models.IEP", b =>
+                {
+                    b.HasOne("IEPCompanion.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("IEPCompanion.Models.IEPPerson", b =>
                 {
                     b.HasOne("IEPCompanion.Models.IEP", "IEP")
@@ -316,7 +341,7 @@ namespace IEPCompanion.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IEPCompanion.Models.Person", "person")
+                    b.HasOne("IEPCompanion.Models.Person", "Person")
                         .WithMany("JoinEntities")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -324,7 +349,16 @@ namespace IEPCompanion.Migrations
 
                     b.Navigation("IEP");
 
-                    b.Navigation("person");
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("IEPCompanion.Models.Person", b =>
+                {
+                    b.HasOne("IEPCompanion.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

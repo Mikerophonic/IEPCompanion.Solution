@@ -9,15 +9,15 @@ namespace IEPCompanion.Controllers;
 public class AccountsController:Controller
 {
   private readonly IEPCompanionContext _db;
-  private readonly UserManager<ApplicationUser> _userManager;
-  private readonly SignInManager<ApplicationUser> _signInManager;
+  // private readonly UserManager<ApplicationUser> _userManager;
+  // private readonly SignInManager<ApplicationUser> _signInManager;
 
-  public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEPCompanionContext db)
-  {
-    _userManager = userManager;
-    _signInManager = signInManager;
-    _db=db;
-  }
+  // public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEPCompanionContext db)
+  // {
+  //   _userManager = userManager;
+  //   _signInManager = signInManager;
+  //   _db=db;
+  // }
 
   public ActionResult Login()
   {
@@ -35,30 +35,33 @@ public class AccountsController:Controller
     }
 
 
-  [HttpPost]
+ [HttpPost]
 public async Task<IActionResult> Register(RegisterViewModel model)
 {
-  if(!ModelState.IsValid)
-  {
-    return View(model);
-  }
-  else
-  {
-    ApplicationUser user = new ApplicationUser { UserName = model.Email };
-    IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-    if(result.Succeeded)
+    if (!ModelState.IsValid)
     {
-      return RedirectToAction("Index", "Home");
+        return View(model);
     }
     else
     {
-      foreach (IdentityError err in result.Errors)
-      {
-        ModelState.AddModelError("", err.Description);
-      }
-      return View(model);
+        ApplicationUser user = new ApplicationUser { UserName = model.Email };
+        IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+        if (result.Succeeded)
+        {
+            // Assign the role to the user
+            await _userManager.AddToRoleAsync(user, model.Role);
+
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            foreach (IdentityError err in result.Errors)
+            {
+                ModelState.AddModelError("", err.Description);
+            }
+            return View(model);
+        }
     }
-  }
 }
   
   [HttpPost]

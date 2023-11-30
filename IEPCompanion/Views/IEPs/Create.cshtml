@@ -1,0 +1,17 @@
+@{
+  Layout = "_Layout";
+}
+
+@model IEPCompanion.Models.IEP
+
+<h2>Create a new IEP</h2>
+
+@using (Html.BeginForm())
+{
+  
+@Html.HiddenFor(model => model.IEPId)
+
+@Html.Label("Select a student:")
+
+  <input type="submit" value="Create" />
+}

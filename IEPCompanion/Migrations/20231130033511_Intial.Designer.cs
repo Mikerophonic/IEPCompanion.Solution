@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IEPCompanion.Migrations
 {
     [DbContext(typeof(IEPCompanionContext))]
-    [Migration("20231129023653_Test")]
-    partial class Test
+    [Migration("20231130033511_Intial")]
+    partial class Intial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,10 +91,24 @@ namespace IEPCompanion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Disability")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Goals")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SchoolYear")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("IEPId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("IEPs");
                 });
@@ -126,9 +140,6 @@ namespace IEPCompanion.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
@@ -138,39 +149,17 @@ namespace IEPCompanion.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("PersonId");
 
-                    b.ToTable("Persons");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            PersonId = 1,
-                            Category = "Administrator",
-                            FirstName = "Harold",
-                            LastName = "Gold"
-                        },
-                        new
-                        {
-                            PersonId = 2,
-                            Category = "Teacher",
-                            FirstName = "Mary",
-                            LastName = "Berry"
-                        },
-                        new
-                        {
-                            PersonId = 3,
-                            Category = "Student",
-                            FirstName = "Aaron",
-                            LastName = "Holland"
-                        },
-                        new
-                        {
-                            PersonId = 4,
-                            Category = "Parent",
-                            FirstName = "Mary",
-                            LastName = "Holland"
-                        });
+                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -180,6 +169,10 @@ namespace IEPCompanion.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -197,6 +190,8 @@ namespace IEPCompanion.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -275,11 +270,17 @@ namespace IEPCompanion.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<string>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -301,6 +302,39 @@ namespace IEPCompanion.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("IEPCompanion.Models.ApplicationRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("ApplicationRole");
+                });
+
+            modelBuilder.Entity("IEPCompanion.Models.ApplicationUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<string>");
+
+                    b.Property<string>("RoleId1")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
+
+                    b.HasDiscriminator().HasValue("ApplicationUserRole");
+                });
+
+            modelBuilder.Entity("IEPCompanion.Models.IEP", b =>
+                {
+                    b.HasOne("IEPCompanion.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("IEPCompanion.Models.IEPPerson", b =>
                 {
                     b.HasOne("IEPCompanion.Models.IEP", "IEP")
@@ -309,7 +343,7 @@ namespace IEPCompanion.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IEPCompanion.Models.Person", "person")
+                    b.HasOne("IEPCompanion.Models.Person", "Person")
                         .WithMany("JoinEntities")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -317,7 +351,16 @@ namespace IEPCompanion.Migrations
 
                     b.Navigation("IEP");
 
-                    b.Navigation("person");
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("IEPCompanion.Models.Person", b =>
+                {
+                    b.HasOne("IEPCompanion.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -371,6 +414,26 @@ namespace IEPCompanion.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("IEPCompanion.Models.ApplicationUserRole", b =>
+                {
+                    b.HasOne("IEPCompanion.Models.ApplicationRole", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("IEPCompanion.Models.ApplicationUser", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IEPCompanion.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("IEPCompanion.Models.IEP", b =>
                 {
                     b.Navigation("JoinEntities");
@@ -379,6 +442,11 @@ namespace IEPCompanion.Migrations
             modelBuilder.Entity("IEPCompanion.Models.Person", b =>
                 {
                     b.Navigation("JoinEntities");
+                });
+
+            modelBuilder.Entity("IEPCompanion.Models.ApplicationRole", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

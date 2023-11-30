@@ -15,5 +15,6 @@ namespace IEPCompanion.Models
 
     public IEPCompanionContext(DbContextOptions<IEPCompanionContext> options) : base(options) { }
 
+
   }
 }

@@ -22,5 +22,11 @@
   @Html.LabelFor(user=> user.ConfirmPassword)
   @Html.EditorFor(user=> user.ConfirmPassword)
 
+  <label for="Role">Select your role:</label>
+  <select id="Role" name="Role">
+    <option value="Student">Student</option>
+    <option value="Parent">Parent</option>
+  </select>
+
   <input type="submit" value="Register"/>
 }

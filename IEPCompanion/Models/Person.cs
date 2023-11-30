@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace IEPCompanion.Models
 {
   public class Person
@@ -6,7 +8,7 @@ namespace IEPCompanion.Models
     public string LastName { get; set; }
     public string FirstName { get; set; }
     public string Email { get; set; }
-    public string Category {get; set;}
+    public string Role { get; set; }
     public List<IEPPerson> JoinEntities { get; set; }
   }
 }

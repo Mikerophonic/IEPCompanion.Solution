@@ -3,6 +3,7 @@ using System;
 using IEPCompanion.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IEPCompanion.Migrations
 {
     [DbContext(typeof(IEPCompanionContext))]
-    partial class IEPCompanionContextModelSnapshot : ModelSnapshot
+    [Migration("20231130023539_PersonIDToIEP")]
+    partial class PersonIDToIEP
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

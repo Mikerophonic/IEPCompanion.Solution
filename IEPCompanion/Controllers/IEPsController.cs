@@ -28,16 +28,16 @@ public class IEPsController : Controller
 
   public async Task<ActionResult> Index()
   {
-    string userId = Person.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    ApplicationUser currentUser = await _userManager.FindByIdAsync(PersonId);
-    if (currentUser == null)
-    {
-      return NotFound();
-    }
-    List<IEP> PersonIEPs = _db.IEPs
-      .Where(entry => entry.PersonId == currentPerson.Id)
-      .ToList();
-    return View(personIEPs);
+    // string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    // ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+    // if (currentUser == null)
+    // {
+    //   return NotFound();
+    // }
+    // List<IEP> personIEPs = await _db.IEPs
+    //   .Where(entry => entry.PersonId == currentUser.Id)
+    //   .ToListAsync();
+    return View();
   }
 
   //CREATE

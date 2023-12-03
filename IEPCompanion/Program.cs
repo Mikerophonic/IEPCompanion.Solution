@@ -7,38 +7,37 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.UI; 
 
-public class Program
-{
-    public static void Main(string[] args)
-    {
-        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-        var configuration = builder.Configuration;
-        var services = builder.Services;
 
-        var connectionString = GetConnectionString(builder, "DefaultConnection");
+// public class Program
+// {
+//     public static void Main(string[] args)
+//     {
+//         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+//         var configuration = builder.Configuration;
+//         var services = builder.Services;
 
-        services.AddDbContext<IEPCompanionContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+//         var connectionString = GetConnectionString(builder, "DefaultConnection");
+
+//         services.AddDbContext<IEPCompanionContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 
-        //Adds identity roles to the database.
-        builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<IEPCompanionContext>();
+//         //Adds identity roles to the database.
+//         builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//                 .AddRoles<IdentityRole>()
+//                 .AddEntityFrameworkStores<IEPCompanionContext>();
 
-        connectionString = GetConnectionString(builder, "IEPCompanion");
+//         connectionString = GetConnectionString(builder, "IEPCompanion");
 
-        builder.Services.AddControllersWithViews();
-    }
+//         builder.Services.AddControllersWithViews();
+//     }
 
-    public static string GetConnectionString(WebApplicationBuilder builder, string name)
-    {
-        // Retrieve the connection string by name from your configuration.
-        // This is just a placeholder. Replace with your actual code.
-        return builder.Configuration.GetConnectionString(name);
-    }
-}
+//     public static string GetConnectionString(WebApplicationBuilder builder, string IEPCompanion)
+//     {
+//         return builder.Configuration.GetConnectionString(IEPCompanion);
+//     }
+//   }
 
-  // be sure to change the namespace to match your project
+//   // be sure to change the namespace to match your project
   namespace IEPCompanion
   {
     class Program

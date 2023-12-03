@@ -16,22 +16,23 @@ namespace IEPCompanion.Controllers;
 public class IEPsController : Controller
 {
   private readonly IEPCompanionContext _db;
-  private readonly UserManager<ApplicationUser> _userManager;
+  // private readonly UserManager<ApplicationUser> _userManager;
 
 
   public IEPsController(IEPCompanionContext db)
   {
     _db = db;
+    // _userManager = userManager; 
   }
 
-  public async Task<ActionResult> Index()
+  public ActionResult Index()
   {
       string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-      List<IEP> userIEPs = _db.IEPs.
-                               Where(entry => entry.User.Id == currentUser.Id)
-                               .ToList();
-      return View(userIEPs); 
+      // ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      // List<IEP> userIEPs = _db.IEPs.
+      //                          Where(entry => entry.User.Id == currentUser.Id)
+      //                          .ToList();
+      return View(); 
   }
 
   //CREATE

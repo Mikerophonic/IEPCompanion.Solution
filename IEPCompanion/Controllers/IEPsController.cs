@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Security.Claims;
 
 
 
@@ -17,6 +16,7 @@ namespace IEPCompanion.Controllers;
 public class IEPsController : Controller
 {
   private readonly IEPCompanionContext _db;
+  private readonly UserManager<ApplicationUser> _userManager;
 
 
   public IEPsController(IEPCompanionContext db)
@@ -27,7 +27,7 @@ public class IEPsController : Controller
   public async Task<ActionResult> Index()
   {
       string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      // ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
       List<IEP> userIEPs = _db.IEPs.
                                Where(entry => entry.User.Id == currentUser.Id)
                                .ToList();

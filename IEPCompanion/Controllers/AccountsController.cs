@@ -9,15 +9,15 @@ namespace IEPCompanion.Controllers;
 public class AccountsController:Controller
 {
   private readonly IEPCompanionContext _db;
-  // private readonly UserManager<ApplicationUser> _userManager;
-  // private readonly SignInManager<ApplicationUser> _signInManager;
+  private readonly UserManager<ApplicationUser> _userManager;
+  private readonly SignInManager<ApplicationUser> _signInManager;
 
-  // public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEPCompanionContext db)
-  // {
-  //   _userManager = userManager;
-  //   _signInManager = signInManager;
-  //   _db=db;
-  // }
+  public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEPCompanionContext db)
+  {
+    _userManager = userManager;
+    _signInManager = signInManager;
+    _db=db;
+  }
 
   public ActionResult Login()
   {
